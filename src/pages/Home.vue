@@ -9,7 +9,7 @@ const liveStatusMap = ref({})
 
 // 读取本地 JSON
 async function loadProjects() {
-  const res = await fetch('/src/data/projects.json')
+  const res = await fetch('/projects.json')
   projects.value = await res.json()
 }
 

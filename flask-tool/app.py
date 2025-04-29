@@ -6,8 +6,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 app = Flask(__name__)
 app.secret_key = 'cyber-aniya-space-tool'
 
-# JSON 数据文件路径（假设 flask-tool 与 src 同级）
-DATA_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '../src/data/projects.json'))
+# JSON 数据文件路径（直接操作 public/projects.json）
+DATA_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '../public/projects.json'))
 
 def load_projects():
     with open(DATA_PATH, 'r', encoding='utf-8') as f:
@@ -102,4 +102,3 @@ def ping():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5008, debug=True)
-
