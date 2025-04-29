@@ -33,7 +33,7 @@
   },
   {
     "id": "banana",
-    "title": "banana-room",
+    "title": "猴子分香蕉可视化",
     "description": "起点平等，终点不平等。",
     "tags": [
       "Vue",
@@ -49,7 +49,7 @@
   },
   {
     "id": "weibo-post-processor",
-    "title": "weibo-post-processor",
+    "title": "微博年度总结(脚本)",
     "description": "年度总结处理脚本",
     "tags": [
       "Python"
@@ -91,18 +91,59 @@
     "updated_at": "2025-04-29"
   },
   {
-    "id": "future-idea",
-    "title": "未来的点子",
-    "description": "保留 idea slot，尚未开发",
+    "id": "win98-llm-chat",
+    "title": "Win98风格LLM聊天",
+    "description": "一个简单的 LLM 聊天工具，采用 Win98 风格，配有仿宽带连接的 API 配置页，使用 Vue 和 98.css 构建。",
     "tags": [
-      "Idea",
-      "未开发"
+      "Win98",
+      "Vue",
+      "98.css"
     ],
-    "repo": "",
-    "demo": "",
-    "status": "Idea",
+    "repo": "https://github.com/senzi/win98-llm-chat",
+    "demo": "https://llm98.closeai.moe/",
+    "status": "Active",
     "cover_image": "",
-    "created_at": "2025-04-28",
-    "updated_at": "2025-04-28"
+    "created_at": "2025-04-29",
+    "updated_at": "2025-04-29"
+  },
+  {
+    "id": "count_and_say",
+    "title": "报数序列(Python)",
+    "description": "探索报数序列的 Python 脚本集合，通过描述前一项生成下一项。",
+    "tags": [
+      "Python"
+    ],
+    "repo": "https://github.com/senzi/count_and_say",
+    "demo": "",
+    "status": "Active",
+    "cover_image": "",
+    "created_at": "2025-04-29",
+    "updated_at": "2025-04-29"
+  },
+  {
+    "id": "Open-Source-Brain",
+    "title": "开源脑子",
+    "description": "开源我的脑子(整活)",
+    "tags": [],
+    "repo": "https://github.com/senzi/Open-Source-Brain",
+    "demo": "",
+    "status": "Archived",
+    "cover_image": "",
+    "created_at": "2025-04-29",
+    "updated_at": "2025-04-29"
+  },
+  {
+    "id": "EndlessMoonshot",
+    "title": "EndlessMoonshot",
+    "description": "一个模拟流式打字机效果，在页面上无尽打印故事的项目。(整活)",
+    "tags": [
+      "html"
+    ],
+    "repo": "https://github.com/senzi/EndlessMoonshot",
+    "demo": "https://senzi.github.io/EndlessMoonshot/",
+    "status": "Active",
+    "cover_image": "",
+    "created_at": "2025-04-29",
+    "updated_at": "2025-04-29"
   }
 ]
