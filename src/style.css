@@ -1,3 +1,4 @@
+@import url('//chinese-fonts-cdn.deno.dev/packages/lxgwwenkai/dist/LXGWWenKai-Regular/result.css');
 @import "tailwindcss";
 @plugin "daisyui" {
   themes: caramellatte --default;

@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { generateOgImage } from '../utils/ogImage'
 
 const props = defineProps({
   project: {
@@ -15,8 +16,8 @@ const props = defineProps({
 // og:image 生成
 const coverImage = computed(() => {
   if (props.project.cover_image) return props.project.cover_image
-  // Vercel 风格 og:image 占位
-  return `https://og-image.vercel.app/${encodeURIComponent(props.project.title)}.png?theme=light&md=1&fontSize=100px`
+  // 本地 Canvas 生成 og:image 占位
+  return generateOgImage(props.project.title)
 })
 
 // 状态灯颜色
