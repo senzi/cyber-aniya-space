@@ -2,18 +2,18 @@
   {
     "id": "aniya-space",
     "title": "Cyber Aniya Space",
-    "description": "阿尼亚的个人项目空间站主页",
+    "description": "个人项目空间站主页(本站)",
     "tags": [
       "Vue",
       "空间站",
       "摸鱼"
     ],
-    "repo": "https://github.com/aniya/cyber-aniya-space",
-    "demo": "",
-    "status": "WIP",
+    "repo": "https://github.com/senzi/cyber-aniya-space",
+    "demo": "https://space.closeai.moe",
+    "status": "Active",
     "cover_image": "",
     "created_at": "2025-04-01",
-    "updated_at": "2025-04-28"
+    "updated_at": "2025-04-29"
   },
   {
     "id": "deepluck",
@@ -24,11 +24,70 @@
       "Demo",
       "摸鱼"
     ],
-    "repo": "https://github.com/aniya/deepluck",
+    "repo": "https://github.com/senzi/llm-fortune-teller",
     "demo": "https://deepluck.closeai.moe",
     "status": "Active",
     "cover_image": "",
     "created_at": "2024-06-01",
+    "updated_at": "2025-04-29"
+  },
+  {
+    "id": "banana",
+    "title": "banana-room",
+    "description": "起点平等，终点不平等。",
+    "tags": [
+      "Vue",
+      "猴子",
+      "可视化"
+    ],
+    "repo": "https://github.com/senzi/banana-room",
+    "demo": "https://banana.closeai.moe/",
+    "status": "Active",
+    "cover_image": "",
+    "created_at": "2025-04-29",
+    "updated_at": "2025-04-29"
+  },
+  {
+    "id": "weibo-post-processor",
+    "title": "weibo-post-processor",
+    "description": "年度总结处理脚本",
+    "tags": [
+      "Python"
+    ],
+    "repo": "https://github.com/senzi/weibo-post-processor",
+    "demo": "https://weiborecap.closeai.moe",
+    "status": "Active",
+    "cover_image": "",
+    "created_at": "2025-04-29",
+    "updated_at": "2025-04-29"
+  },
+  {
+    "id": "Repo-Whisperer",
+    "title": "Repo Whisperer",
+    "description": "基于 AI 的 GitHub 仓库命名与描述生成工具",
+    "tags": [
+      "Vue",
+      "Deepseek"
+    ],
+    "repo": "https://github.com/senzi/repo-name-whisperer",
+    "demo": "https://repo.closeai.moe/",
+    "status": "Active",
+    "cover_image": "",
+    "created_at": "2025-04-29",
+    "updated_at": "2025-04-29"
+  },
+  {
+    "id": "token-collector-game",
+    "title": "LLM字集",
+    "description": "通过从大语言模型回复中收集汉字，拼出目标短语。",
+    "tags": [
+      "Vue"
+    ],
+    "repo": "https://github.com/senzi/token-collector-game",
+    "demo": "https://zi.closeai.moe/",
+    "status": "Active",
+    "cover_image": "",
+    "created_at": "2025-04-29",
     "updated_at": "2025-04-29"
   },
   {
