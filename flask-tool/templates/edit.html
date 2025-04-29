@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ project and '编辑项目' or '新增项目' }}</h2>
+<form method="post" class="mt-3">
+  <div class="mb-3">
+    <label class="form-label">项目 ID <span class="text-danger">*</span></label>
+    <input type="text" name="id" class="form-control" required value="{{ project.id if project else '' }}" {{ project and 'readonly' or '' }}>
+    <div class="form-text">唯一英文标识，新增后不可修改</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">项目名 <span class="text-danger">*</span></label>
+    <input type="text" name="title" class="form-control" required value="{{ project.title if project else '' }}">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">一句话简介</label>
+    <input type="text" name="description" class="form-control" value="{{ project.description if project else '' }}">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">标签（逗号分隔）</label>
+    <input type="text" name="tags" class="form-control" value="{{ project and project.tags|join(', ') or '' }}">
+    <div class="form-text">如：Vue, Demo, 摸鱼</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Repo 链接</label>
+    <input type="url" name="repo" class="form-control" value="{{ project.repo if project else '' }}">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Demo 链接</label>
+    <div class="input-group">
+      <input type="url" name="demo" class="form-control" id="demo-input" value="{{ project.demo if project else '' }}">
+      <button type="button" class="btn btn-outline-success" id="ping-btn">Ping</button>
+      <span class="input-group-text" id="ping-status"></span>
+    </div>
+    <div class="form-text">可选，填写后可检测可用性</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">状态</label>
+    <select name="status" class="form-select">
+      {% set st = project.status if project else '' %}
+      <option value="Active" {{ st == 'Active' and 'selected' or '' }}>Active</option>
+      <option value="WIP" {{ st == 'WIP' and 'selected' or '' }}>WIP</option>
+      <option value="Idea" {{ st == 'Idea' and 'selected' or '' }}>Idea</option>
+      <option value="Archived" {{ st == 'Archived' and 'selected' or '' }}>Archived</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">封面图片（可选）</label>
+    <input type="url" name="cover_image" class="form-control" id="cover-input" value="{{ project.cover_image if project else '' }}">
+    <div class="form-text">不填则自动生成 og:image</div>
+    <div class="mt-2">
+      <label class="form-label">og:image 预览：</label><br>
+      <img id="og-preview" class="og-preview" src="{{ project.cover_image if project and project.cover_image else 'https://og-image.vercel.app/' ~ (project.title if project else '')|urlencode ~ '.png?theme=light&md=1&fontSize=100px' }}" alt="og">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">保存</button>
+  <a href="{{ url_for('index') }}" class="btn btn-secondary ms-2">返回</a>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const demoInput = document.getElementById('demo-input');
+const pingBtn = document.getElementById('ping-btn');
+const pingStatus = document.getElementById('ping-status');
+if (pingBtn) {
+  pingBtn.onclick = function() {
+    const demo = demoInput.value;
+    if (!demo) {
+      pingStatus.textContent = '';
+      return;
+    }
+    pingStatus.textContent = '检测中...';
+    fetch('/ping', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: 'demo=' + encodeURIComponent(demo)
+    })
+    .then(r => r.json())
+    .then(data => {
+      pingStatus.textContent = data.ok ? '🟢' : '🔴';
+    })
+    .catch(() => {
+      pingStatus.textContent = '🔴';
+    });
+  }
+}
+
+// og:image 预览
+const titleInput = document.querySelector('input[name="title"]');
+const coverInput = document.getElementById('cover-input');
+const ogPreview = document.getElementById('og-preview');
+function updateOgPreview() {
+  let url = coverInput.value.trim();
+  if (!url) {
+    let title = titleInput.value.trim();
+    if (title) {
+      url = 'https://og-image.vercel.app/' + encodeURIComponent(title) + '.png?theme=light&md=1&fontSize=100px';
+    }
+  }
+  ogPreview.src = url;
+}
+if (coverInput && ogPreview && titleInput) {
+  coverInput.addEventListener('input', updateOgPreview);
+  titleInput.addEventListener('input', updateOgPreview);
+}
+</script>
+{% endblock %}

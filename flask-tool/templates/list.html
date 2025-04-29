@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>项目列表</h2>
+  <a href="{{ url_for('add') }}" class="btn btn-primary">新增项目</a>
+</div>
+<table class="table table-hover align-middle">
+  <thead>
+    <tr>
+      <th>标题</th>
+      <th>简介</th>
+      <th>标签</th>
+      <th>状态</th>
+      <th>Repo</th>
+      <th>Demo</th>
+      <th>og:image</th>
+      <th>更新时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in projects %}
+    <tr>
+      <td>{{ p.title }}</td>
+      <td class="text-truncate" style="max-width:180px">{{ p.description }}</td>
+      <td>
+        {% for tag in p.tags %}
+          <span class="badge bg-secondary">{{ tag }}</span>
+        {% endfor %}
+      </td>
+      <td>
+        <span class="badge bg-info">{{ p.status }}</span>
+      </td>
+      <td>
+        {% if p.repo %}
+        <a href="{{ p.repo }}" target="_blank" class="btn btn-sm btn-outline-dark">Repo</a>
+        {% endif %}
+      </td>
+      <td>
+        {% if p.demo %}
+        <a href="{{ p.demo }}" target="_blank" class="btn btn-sm btn-outline-primary">Demo</a>
+        <button class="btn btn-sm btn-outline-success ms-1 ping-btn" data-demo="{{ p.demo }}">Ping</button>
+        <span class="ping-status ms-1" id="ping-{{ p.id }}"></span>
+        {% endif %}
+      </td>
+      <td>
+        <a href="{{ p.cover_image if p.cover_image else 'https://og-image.vercel.app/' ~ p.title|urlencode ~ '.png?theme=light&md=1&fontSize=100px' }}" target="_blank">
+          <img src="{{ p.cover_image if p.cover_image else 'https://og-image.vercel.app/' ~ p.title|urlencode ~ '.png?theme=light&md=1&fontSize=100px' }}" alt="og" class="og-preview" style="max-width:60px;max-height:32px;">
+        </a>
+      </td>
+      <td class="text-nowrap">{{ p.updated_at }}</td>
+      <td>
+        <a href="{{ url_for('edit', pid=p.id) }}" class="btn btn-sm btn-warning">编辑</a>
+        <form action="{{ url_for('delete', pid=p.id) }}" method="post" style="display:inline" onsubmit="return confirm('确定删除？');">
+          <button class="btn btn-sm btn-danger" type="submit">删除</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.querySelectorAll('.ping-btn').forEach(btn => {
+  btn.onclick = function() {
+    const demo = btn.dataset.demo;
+    const statusSpan = btn.parentElement.querySelector('.ping-status');
+    statusSpan.textContent = '检测中...';
+    fetch('/ping', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: 'demo=' + encodeURIComponent(demo)
+    })
+    .then(r => r.json())
+    .then(data => {
+      statusSpan.textContent = data.ok ? '🟢' : '🔴';
+    })
+    .catch(() => {
+      statusSpan.textContent = '🔴';
+    });
+  }
+});
+</script>
+{% endblock %}
