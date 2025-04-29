@@ -18,9 +18,9 @@
       <th>操作</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="sortable-list">
     {% for p in projects %}
-    <tr>
+    <tr data-id="{{ p.id }}">
       <td>{{ p.title }}</td>
       <td class="text-truncate" style="max-width:180px">{{ p.description }}</td>
       <td>
@@ -62,6 +62,8 @@
 {% endblock %}
 
 {% block scripts %}
+<!-- 引入 Sortable.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script>
 document.querySelectorAll('.ping-btn').forEach(btn => {
   btn.onclick = function() {
@@ -79,6 +81,42 @@ document.querySelectorAll('.ping-btn').forEach(btn => {
     })
     .catch(() => {
       statusSpan.textContent = '🔴';
+    });
+  }
+});
+
+// 拖拽排序功能
+const sortable = new Sortable(document.getElementById('sortable-list'), {
+  animation: 150,
+  handle: 'td', // 整行可拖拽
+  onEnd: function () {
+    const ids = Array.from(document.querySelectorAll('#sortable-list tr')).map(tr => tr.getAttribute('data-id'));
+    fetch('/reorder', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ids})
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.ok) {
+        // 可用 toast/alert/flash 提示
+        if (window.bootstrap && bootstrap.Toast) {
+          const toast = document.createElement('div');
+          toast.className = 'toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-3';
+          toast.role = 'alert';
+          toast.innerHTML = '<div class="d-flex"><div class="toast-body">排序已保存</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>';
+          document.body.appendChild(toast);
+          new bootstrap.Toast(toast, {delay: 1500}).show();
+          setTimeout(() => toast.remove(), 2000);
+        } else {
+          alert('排序已保存');
+        }
+      } else {
+        alert('排序保存失败');
+      }
+    })
+    .catch(() => {
+      alert('排序保存失败');
     });
   }
 });

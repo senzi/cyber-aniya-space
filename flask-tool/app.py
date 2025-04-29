@@ -72,6 +72,24 @@ def delete(pid):
     flash('项目已删除', 'info')
     return redirect(url_for('index'))
 
+@app.route('/reorder', methods=['POST'])
+def reorder():
+    ids = request.json.get('ids')
+    if not ids or not isinstance(ids, list):
+        return jsonify({'ok': False, 'msg': '参数错误'}), 400
+    projects = load_projects()
+    id2project = {p['id']: p for p in projects}
+    new_projects = []
+    for pid in ids:
+        if pid in id2project:
+            new_projects.append(id2project[pid])
+    # 保留未在 ids 中的项目（如有）
+    for p in projects:
+        if p['id'] not in ids:
+            new_projects.append(p)
+    save_projects(new_projects)
+    return jsonify({'ok': True})
+
 @app.route('/ping', methods=['POST'])
 def ping():
     import requests
