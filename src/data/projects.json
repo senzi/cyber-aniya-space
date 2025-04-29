@@ -1,0 +1,38 @@
+[
+  {
+    "id": "deepluck",
+    "title": "DeepLuck",
+    "description": "一个签文小应用，生成好运签文",
+    "tags": ["Vue", "Demo", "摸鱼"],
+    "repo": "https://github.com/aniya/deepluck",
+    "demo": "https://deepluck.pages.dev",
+    "status": "Active",
+    "cover_image": "",
+    "created_at": "2024-06-01",
+    "updated_at": "2025-04-28"
+  },
+  {
+    "id": "aniya-space",
+    "title": "Cyber Aniya Space",
+    "description": "阿尼亚的个人项目空间站主页",
+    "tags": ["Vue", "空间站", "摸鱼"],
+    "repo": "https://github.com/aniya/cyber-aniya-space",
+    "demo": "",
+    "status": "WIP",
+    "cover_image": "",
+    "created_at": "2025-04-01",
+    "updated_at": "2025-04-28"
+  },
+  {
+    "id": "future-idea",
+    "title": "未来的点子",
+    "description": "保留 idea slot，尚未开发",
+    "tags": ["Idea", "未开发"],
+    "repo": "",
+    "demo": "",
+    "status": "Idea",
+    "cover_image": "",
+    "created_at": "2025-04-28",
+    "updated_at": "2025-04-28"
+  }
+]
