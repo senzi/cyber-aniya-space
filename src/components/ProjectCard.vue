@@ -28,12 +28,17 @@ const statusColor = computed(() => {
   return 'bg-gray-400'
 })
 
-// 状态标签颜色
+/**
+ * 状态标签颜色映射
+ * Active: 绿色，WIP: 蓝色，Idea: 灰色，Paused: 黄色，Stale: 橙色，Archived: 深灰
+ */
 const statusTag = computed(() => {
   switch (props.project.status) {
     case 'Active': return 'badge-success'
-    case 'WIP': return 'badge-warning'
+    case 'WIP': return 'badge-info'
     case 'Idea': return 'badge-ghost'
+    case 'Paused': return 'badge-warning'
+    case 'Stale': return 'badge-error'
     case 'Archived': return 'badge-neutral'
     default: return 'badge-outline'
   }
