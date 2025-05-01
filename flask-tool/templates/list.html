@@ -13,8 +13,6 @@
       <th>状态</th>
       <th>Repo</th>
       <th>Demo</th>
-      <th>og:image</th>
-      <th>更新时间</th>
       <th>操作</th>
     </tr>
   </thead>
@@ -22,7 +20,7 @@
     {% for p in projects %}
     <tr data-id="{{ p.id }}">
       <td>{{ p.title }}</td>
-      <td class="text-truncate" style="max-width:180px">{{ p.description }}</td>
+      <td class="text-truncate" style="max-width:360px">{{ p.description }}</td>
       <td>
         {% for tag in p.tags %}
           <span class="badge bg-secondary">{{ tag }}</span>
@@ -39,16 +37,9 @@
       <td>
         {% if p.demo %}
         <a href="{{ p.demo }}" target="_blank" class="btn btn-sm btn-outline-primary">Demo</a>
-        <button class="btn btn-sm btn-outline-success ms-1 ping-btn" data-demo="{{ p.demo }}">Ping</button>
-        <span class="ping-status ms-1" id="ping-{{ p.id }}"></span>
+        <span class="ping-status ms-1" id="ping-{{ p.id }}" data-demo="{{ p.demo }}"></span>
         {% endif %}
       </td>
-      <td>
-        <a href="{{ p.cover_image if p.cover_image else 'https://og-image.vercel.app/' ~ p.title|urlencode ~ '.png?theme=light&md=1&fontSize=100px' }}" target="_blank">
-          <img src="{{ p.cover_image if p.cover_image else 'https://og-image.vercel.app/' ~ p.title|urlencode ~ '.png?theme=light&md=1&fontSize=100px' }}" alt="og" class="og-preview" style="max-width:60px;max-height:32px;">
-        </a>
-      </td>
-      <td class="text-nowrap">{{ p.updated_at }}</td>
       <td>
         <a href="{{ url_for('edit', pid=p.id) }}" class="btn btn-sm btn-warning">编辑</a>
         <form action="{{ url_for('delete', pid=p.id) }}" method="post" style="display:inline" onsubmit="return confirm('确定删除？');">
@@ -68,11 +59,11 @@
 <!-- 引入 Sortable.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script>
-document.querySelectorAll('.ping-btn').forEach(btn => {
-  btn.onclick = function() {
-    const demo = btn.dataset.demo;
-    const statusSpan = btn.parentElement.querySelector('.ping-status');
-    statusSpan.textContent = '检测中...';
+window.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.ping-status[data-demo]').forEach(function(span) {
+    const demo = span.getAttribute('data-demo');
+    if (!demo) return;
+    span.textContent = '检测中...';
     fetch('/ping', {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -80,12 +71,12 @@ document.querySelectorAll('.ping-btn').forEach(btn => {
     })
     .then(r => r.json())
     .then(data => {
-      statusSpan.textContent = data.ok ? '🟢' : '🔴';
+      span.textContent = data.ok ? '🟢' : '🔴';
     })
     .catch(() => {
-      statusSpan.textContent = '🔴';
+      span.textContent = '🔴';
     });
-  }
+  });
 });
 
 // 拖拽排序功能
@@ -123,108 +114,5 @@ const sortable = new Sortable(document.getElementById('sortable-list'), {
     });
   }
 });
-  // og:image 替换逻辑，确保一定执行
-  function hashString(str) {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      hash = (hash << 5) - hash + str.charCodeAt(i);
-      hash |= 0;
-    }
-    return Math.abs(hash);
-  }
-  function seededRandom(seed) {
-    return function() {
-      seed = (seed * 48271) % 0x7fffffff;
-      return seed / 0x7fffffff;
-    };
-  }
-  function seededShuffle(array, random) {
-    const arr = array.slice();
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-  function generateOgImage(title) {
-    const canvas = document.createElement('canvas');
-    const width = 1200;
-    const height = 630;
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return '';
-
-    const seed = hashString(title);
-    const random = seededRandom(seed);
-
-    // 背景渐变
-    const baseColors = ['#ff9a9e', '#fad0c4', '#a1c4fd', '#c2e9fb', '#d4fc79'];
-    const colors = seededShuffle(baseColors, random);
-
-    // 渐变角度基于 hash 随机
-    const angle = random() * Math.PI * 2;
-    const x1 = width / 2 + Math.cos(angle) * width;
-    const y1 = height / 2 + Math.sin(angle) * height;
-    const x0 = width / 2 - Math.cos(angle) * width;
-    const y0 = height / 2 - Math.sin(angle) * height;
-
-    const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
-    colors.forEach((color, idx) => {
-      gradient.addColorStop(idx / (colors.length - 1), color);
-    });
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, width, height);
-
-    // 文字
-    ctx.fillStyle = '#333333';
-    ctx.font = 'bold 90px "LXGW WenKai", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-
-    // 自动换行
-    const maxWidth = width * 0.8;
-    const lines = [];
-    let currentLine = '';
-    for (const char of title) {
-      const testLine = currentLine + char;
-      const testWidth = ctx.measureText(testLine).width;
-      if (testWidth > maxWidth && currentLine.length > 0) {
-        lines.push(currentLine);
-        currentLine = char;
-      } else {
-        currentLine = testLine;
-      }
-    }
-    if (currentLine) lines.push(currentLine);
-
-    const lineHeight = 80;
-    const totalHeight = lines.length * lineHeight;
-    const startY = (height - totalHeight) / 2 + lineHeight / 2;
-
-    lines.forEach(function(line, index) {
-      ctx.fillText(line, width / 2, startY + index * lineHeight);
-    });
-
-    return canvas.toDataURL('image/png');
-  }
-
-  document.querySelectorAll('.og-preview').forEach(function(img) {
-    // 找到外层 a 标签
-    const a = img.closest('a');
-    if (a && a.href && a.href.includes('og-image.vercel.app')) {
-      // 从同一行第一个 td 获取 title
-      let title = '';
-      const tr = img.closest('tr');
-      if (tr) {
-        const td = tr.querySelector('td');
-        if (td) title = td.textContent.trim();
-      }
-      if (title) {
-        img.src = generateOgImage(title);
-        a.href = img.src;
-      }
-    }
-  });
 </script>
 {% endblock %}

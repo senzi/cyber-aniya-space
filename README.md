@@ -59,14 +59,35 @@ python app.py       # 启动 Flask 服务，访问 http://localhost:5000
 │  │  ├─ data/projects.json   # 项目列表数据源
 │  │  ├─ assets/tailwind.css  # Tailwind 样式入口
 │  └─ ...
-├─ cyber-aniya-manager/       # 本地 Flask 管理工具
+├─ flask-tool/       # 本地 Flask 管理工具
 │  ├─ app.py
-│  ├─ templates/
-│  └─ data/projects.json      # 管理输出文件
+│  └─ templates/
 ```
+
+---
+
+## Fork 后初始化/重置
+
+本项目提供了 `reset_for_fork.py` 脚本，适合你 Fork 后快速初始化为自己的项目站点。
+
+**功能说明：**
+- 交互式输入你的站点主标题、副标题，自动替换首页（src/pages/Home.vue）中的标题和副标题。
+- 初始化 `public/projects.json`，仅保留一个示例项目，日期为当天，方便你后续添加自己的项目数据。
+
+**使用方法：**
+1. 确保已安装 Python 3。
+2. 在项目根目录下运行：
+
+   ```bash
+   python reset_for_fork.py
+   ```
+
+3. 按提示输入你的站点主标题和副标题，脚本会自动完成初始化。
+
+运行后即可开始填写你自己的项目内容。
 
 ---
 
 ## 📜 License
 
-MIT License  
+MIT License
