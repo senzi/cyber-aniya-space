@@ -30,6 +30,22 @@
     "updated_at": "2025-05-01"
   },
   {
+    "id": "quickmath",
+    "title": "速算练习",
+    "description": "多种题型速算练习",
+    "tags": [
+      "速算",
+      "工具",
+      "小玩具"
+    ],
+    "repo": "https://github.com/senzi/quickmath-flask",
+    "demo": "https://quickmath.closeai.moe/",
+    "status": "Active",
+    "cover_image": "",
+    "created_at": "2025-05-03",
+    "updated_at": "2025-05-03"
+  },
+  {
     "id": "deepluck",
     "title": "DeepLuck",
     "description": "一个签文小应用，生成好运签文",
@@ -159,21 +175,5 @@
     "cover_image": "",
     "created_at": "2025-04-29",
     "updated_at": "2025-04-30"
-  },
-  {
-    "id": "quickmath",
-    "title": "速算练习",
-    "description": "多种题型速算练习",
-    "tags": [
-      "速算",
-      "工具",
-      "小玩具"
-    ],
-    "repo": "https://github.com/senzi/quickmath-flask",
-    "demo": "https://quickmath.closeai.moe/",
-    "status": "Active",
-    "cover_image": "",
-    "created_at": "2025-05-03",
-    "updated_at": "2025-05-03"
   }
 ]
