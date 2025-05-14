@@ -30,6 +30,18 @@
     "updated_at": "2025-05-01"
   },
   {
+    "id": "keyboard-scroll-poetry",
+    "title": "语境搭载滚动断裂滑行装置入口",
+    "description": "语言崩溃是暂时的，回避才是永恒的",
+    "tags": [],
+    "repo": "https://github.com/senzi/keyboard-scroll-poetry",
+    "demo": "https://pseudo.closeai.moe/",
+    "status": "Active",
+    "cover_image": "",
+    "created_at": "2025-05-15",
+    "updated_at": "2025-05-15"
+  },
+  {
     "id": "quickmath",
     "title": "速算练习",
     "description": "多种题型速算练习",
